@@ -1,13 +1,18 @@
-package errors
+package errors_
 
 import (
-	"errors"
 	"fmt"
+	"net"
 	"testing"
 )
 
 func TestA(t *testing.T) {
-	fmt.Print(NewStackTraceableError("该error本身的msg",errors.New("cause的msg")))
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.0.1:8000")
+	_, err := net.ListenTCP("tcp", tcpAddr)
+	if nil != err {
+		fmt.Print(NewStackTraceableError("net.ListenTCP fails", err))
+		return
+	}
 
 }
 
